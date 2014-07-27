@@ -1,0 +1,7 @@
+= SCAPtimony
+
+SCAPtimony is SCAP storage and database server build on top of OpenSCAP library.
+SCAPtimony can be deployed as a part of your Rails application (i.e. Foreman) or
+as a stand-alone sealed server.
+
+This project rocks and uses GPLv3 LICENSE.
