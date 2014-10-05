@@ -14,6 +14,7 @@ Gem::Specification.new do |s|
   s.description = "SCAPtimony is SCAP storage and database server build on top
     of OpenSCAP library. SCAPtimony can be deployed as a part of your Rails
     application (i.e. Foreman) or as a stand-alone sealed server."
+  s.license     = "GPL-3.0"
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["COPYING", "Rakefile", "README.rdoc"]
   s.test_files = Dir["test/**/*"]
