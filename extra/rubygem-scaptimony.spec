@@ -89,6 +89,7 @@ popd
 %{gem_libdir}
 %{gem_instdir}/app
 %{gem_instdir}/config
+%{gem_instdir}/db
 %exclude %{gem_cache}
 %{gem_spec}
 %doc %{gem_instdir}/COPYING
