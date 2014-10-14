@@ -10,5 +10,8 @@
 
 module Scaptimony
   module ArfReportsHelper
+    def self.create_arf(params, arf_bzip)
+      raise NotImplementedError
+    end
   end
 end
