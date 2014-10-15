@@ -2,7 +2,6 @@ class CreateScaptimonyAssets < ActiveRecord::Migration
   def change
     create_table :scaptimony_assets do |t|
       t.string :name, limit: 255
-      t.timestamp :created_at
 
       t.timestamps
     end

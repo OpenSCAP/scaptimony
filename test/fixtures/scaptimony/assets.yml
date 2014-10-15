@@ -2,8 +2,6 @@
 
 one:
   name: MyString
-  created_at: 2014-10-14 12:53:33
 
 two:
   name: MyString2
-  created_at: 2014-10-14 12:53:33
