@@ -20,7 +20,7 @@ module Scaptimony
       digest = Digest::SHA256.hexdigest arf_bzip
       # TODO:RAILS-4.0: This should become arf_report = ArfReport.find_or_create_by! ...
       arf_report = ArfReport.first_or_create!(:asset => asset, :policy => policy, :date => params[:date], :digest => digest)
-      raise NotImplementedError
+      arf_report.store!(arf_bzip)
     end
   end
 end
