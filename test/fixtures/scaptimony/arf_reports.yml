@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  asset_id:
+  policy_id:
+  date: 2014-10-15 11:26:42
+  digest: MyString
+  created_at: 2014-10-15 11:26:42
+
+two:
+  asset_id:
+  policy_id:
+  date: 2014-10-15 11:26:42
+  digest: MyString
+  created_at: 2014-10-15 11:26:42
