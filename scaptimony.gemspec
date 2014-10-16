@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
     application (i.e. Foreman) or as a stand-alone sealed server."
   s.license     = "GPL-3.0"
 
-  s.files = Dir["{app,config,db,lib}/**/*"] + ["COPYING", "Rakefile", "README.rdoc"]
+  s.files = Dir["{app,config,db,lib}/**/*"] + ["COPYING", "Rakefile", "README.md"]
   s.test_files = Dir["test/**/*"]
 
   s.add_dependency "rails", "~> 3.2.8"

@@ -98,7 +98,7 @@ popd
 
 %files doc
 %doc %{gem_instdir}/COPYING
-%doc %{gem_instdir}/README.rdoc
+%doc %{gem_instdir}/README.md
 %{gem_instdir}/Rakefile
 
 
