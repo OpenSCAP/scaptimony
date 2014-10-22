@@ -20,8 +20,8 @@
 }
 
 Name: %{?scl_prefix}rubygem-%{gem_name}
-Version: 0.0.1
-Release: 1%{?dist}
+Version: %{mainver}
+Release: %{release}%{?dist}
 Summary: SCAPtimony is SCAP database and storage server
 Group: Applications/System
 License: GPLv3
