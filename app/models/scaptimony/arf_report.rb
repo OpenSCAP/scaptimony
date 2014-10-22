@@ -17,7 +17,7 @@ module Scaptimony
 
     private
     def path
-      "#{dir}/#{digest}"
+      "#{dir}/#{digest}.xml.bz2"
     end
 
     def dir
