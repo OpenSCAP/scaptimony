@@ -1,4 +1,6 @@
 require 'fileutils'
+require 'openscap'
+require 'openscap/ds/arf'
 
 module Scaptimony
   class ArfReport < ActiveRecord::Base
@@ -13,6 +15,14 @@ module Scaptimony
         logger.error "Could not store ARF to '#{path}': #{e.message}"
         raise e
       end
+    end
+
+    def each
+      OpenSCAP.oscap_init
+      arf = OpenSCAP::DS::Arf.new path
+      yield arf.html
+      arf.destroy
+      OpenSCAP.oscap_cleanup
     end
 
     private
