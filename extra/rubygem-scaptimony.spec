@@ -10,8 +10,8 @@
 
 %global gem_name scaptimony
 
-%global mainver 0.0.1
-%global release 2
+%global mainver 0.1.0
+%global release 1
 %{?prever:
 %global gem_instdir %{gem_dir}/gems/%{gem_name}-%{mainver}%{?prever}
 %global gem_docdir %{gem_dir}/doc/%{gem_name}-%{mainver}%{?prever}
@@ -105,6 +105,9 @@ popd
 
 
 %changelog
+* Thu Oct 23 2014 Šimon Lukašík <slukasik@redhat.com> - 0.1.0-1
+- rebuilt
+
 * Sun Oct 05 2014 Šimon Lukašík <slukasik@redhat.com> - 0.0.1-1
 - Initial package
 - rebuilt
