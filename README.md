@@ -1,16 +1,29 @@
 # SCAPtimony
 
+SCAPtimony project gives full testimony about compliance of your infrastructure.
 SCAPtimony is SCAP storage and database server build on top of OpenSCAP library.
 SCAPtimony can be deployed as a part of your Rails application (i.e. Foreman) or
 as a stand-alone sealed server.
 
 + Current features:
-  + Collect & achieve OpenSCAP audit results from your infrastructure
-+ Future features:
+  + Achieve SCAP audit results from your infrastructure
+    + Provide API for tools to upload collected SCAP results
   + Rails artefacts to display audit results within your application
-  + API to set-up organization defined targeting (connect set of system, a policy and time schedule)
-  + Comparison of audit results
-  + Waive known issues (one-time waivers, re-occurring, waivers)
++ Future features:
+  + Define security/compliance policies
+    + Archive distinct versions of the policy
+    + Upload SCAP content and assign it with the policy
+    + Set-up a periodical schedule of audits for the policy
+    + Organization defined targeting (Assign a set of nodes with the policy)
+    + Define known-issues and waivers (Assign waivers with a set of nodes and the policy)
+    + Set-up rules for automated deletion of
+  + Result post-processing
+    + Search SCAP results
+    + Search for non-compliant systems
+    + Search for not audited systems
+    * Comparison of audit results
+    + Waive known issues
+  + Let us know, if your feature is missing.
 
 ## Installation
 
