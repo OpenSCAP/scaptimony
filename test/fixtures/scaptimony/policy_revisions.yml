@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  policy_id: 1
+  scap_content_id: 1
+  xccdf_profile: MyString
+  period: MyString
+  weekday: MyString
+  active_until: 2014-11-04 18:15:45
+
+two:
+  policy_id: 1
+  scap_content_id: 1
+  xccdf_profile: MyString
+  period: MyString
+  weekday: MyString
+  active_until: 2014-11-04 18:15:45
