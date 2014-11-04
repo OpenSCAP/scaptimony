@@ -35,6 +35,8 @@ as a stand-alone sealed server.
 
 - Build SCAPtimony RPM (instructions for Red Hat Enterprise Linux 6)
 
+  Enable Software Collections as per [instructions](https://access.redhat.com/documentation/en-US/Red_Hat_Software_Collections/1/html-single/1.1_Release_Notes/index.html#sect-Installation_and_Usage-Subscribe).
+
   ```
   $ cd scaptimony
   $ gem build scaptimony.gemspec
