@@ -1,6 +1,7 @@
 require 'fileutils'
 require 'openscap'
 require 'openscap/ds/arf'
+require 'scaptimony/engine'
 
 module Scaptimony
   class ArfReport < ActiveRecord::Base
@@ -32,7 +33,7 @@ module Scaptimony
 
     def dir
       # TODO this should be configurable
-      "/var/lib/foreman/scaptimony/arf/#{asset.name}/#{policy.name}/#{date}"
+      "#{Scaptimony::Engine.dir}/arf/#{asset.name}/#{policy.name}/#{date}"
     end
   end
 end
