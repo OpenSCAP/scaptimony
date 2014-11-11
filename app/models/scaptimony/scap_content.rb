@@ -6,6 +6,11 @@ require 'scaptimony/engine'
 module Scaptimony
   class DataStreamValidator < ActiveModel::Validator
     def validate(scap_content)
+      if scap_content.new_record? and scap_content.scap_file.nil?
+        scap_content.errors[:base] << _("Please select file for upload.")
+        return false
+      end
+
       allowed_type = 'SCAP Source Datastream'
       if scap_content.source.type != allowed_type
         scap_content.errors[:base] << _("Uploaded file is not #{allowed_type}.")
@@ -24,17 +29,23 @@ module Scaptimony
     validates_with Scaptimony::DataStreamValidator
     validates :title, :presence => true
     validates :digest, :presence => true
-    attr_writer :scap_file
+    attr_accessor :scap_file
 
     def store
-      begin
-        FileUtils.mkdir_p dir
-        source.save path
-      rescue StandardError => e
-        errors[:base] << e.message
-        return false
+      if valid_store_attempt
+        begin
+          FileUtils.mkdir_p dir
+          source.save path
+        rescue StandardError => e
+          errors[:base] << e.message
+          return false
+        end
       end
       save
+    end
+
+    def valid_store_attempt
+      new_record? and !@scap_file.nil?
     end
 
     def source
@@ -42,7 +53,7 @@ module Scaptimony
     end
 
     def digest
-      self[:digest] ||= Digest::SHA256.hexdigest @scap_file
+      self[:digest] ||= Digest::SHA256.hexdigest "#{@scap_file}"
     end
 
     private
