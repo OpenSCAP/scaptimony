@@ -42,7 +42,7 @@ module Scaptimony
     end
 
     def digest
-      @digest ||= Digest::SHA256.hexdigest @scap_file
+      self[:digest] ||= Digest::SHA256.hexdigest @scap_file
     end
 
     private
