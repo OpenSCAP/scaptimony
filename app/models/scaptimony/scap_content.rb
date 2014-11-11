@@ -22,6 +22,8 @@ module Scaptimony
 
   class ScapContent < ActiveRecord::Base
     validates_with Scaptimony::DataStreamValidator
+    validates :title, :presence => true
+    validates :digest, :presence => true
     attr_writer :scap_file
 
     def store
