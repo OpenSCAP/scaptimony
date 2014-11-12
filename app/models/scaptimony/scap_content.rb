@@ -6,7 +6,12 @@ require 'scaptimony/engine'
 module Scaptimony
   class DataStreamValidator < ActiveModel::Validator
     def validate(scap_content)
-      if scap_content.new_record? and scap_content.scap_file.nil?
+      if !scap_content.new_record?
+        return true if scap_content.scap_file.nil?
+        scap_content.errors[:base] << _("Cannot change uploaded file while editing content.")
+        return false
+      end
+      if scap_content.scap_file.nil?
         scap_content.errors[:base] << _("Please select file for upload.")
         return false
       end
