@@ -16,6 +16,12 @@ module Scaptimony
         return false
       end
 
+      existing = ScapContent.where(:digest => scap_content.digest).first
+      if !existing.nil?
+        scap_content.errors[:base] << _("This file has been already uploaded as '#{existing.title}'.")
+        return false
+      end
+
       allowed_type = 'SCAP Source Datastream'
       if scap_content.source.type != allowed_type
         scap_content.errors[:base] << _("Uploaded file is not #{allowed_type}.")
