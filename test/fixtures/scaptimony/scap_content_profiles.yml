@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  scap_content_id: 1
+  id: MyString
+  title: MyString
+
+two:
+  scap_content_id: 2
+  id: MyString
+  title: MyString

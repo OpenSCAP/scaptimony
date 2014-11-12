@@ -37,6 +37,8 @@ module Scaptimony
   end
 
   class ScapContent < ActiveRecord::Base
+    has_many :scap_content_profiles, :dependent => :destroy
+
     validates_with Scaptimony::DataStreamValidator
     validates :title, :presence => true
     validates :digest, :presence => true
