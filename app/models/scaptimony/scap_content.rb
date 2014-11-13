@@ -1,6 +1,8 @@
 require 'digest'
 require 'fileutils'
+require 'openscap/ds/sds'
 require 'openscap/source'
+require 'openscap/xccdf/benchmark'
 require 'scaptimony/engine'
 
 module Scaptimony
@@ -49,12 +51,15 @@ module Scaptimony
         begin
           FileUtils.mkdir_p dir
           source.save path
+          return false if !save
+          create_profiles
         rescue StandardError => e
           errors[:base] << e.message
           return false
         end
+      else
+        save
       end
-      save
     end
 
     def valid_store_attempt
@@ -82,5 +87,17 @@ module Scaptimony
     def dir
       "#{Scaptimony::Engine.dir}/content"
     end
+
+    def create_profiles
+        sds = ::OpenSCAP::DS::Sds.new source
+        bench_source = sds.select_checklist!
+        bench = ::OpenSCAP::Xccdf::Benchmark.new bench_source
+        bench.profiles.each { |key, profile|
+          scap_content_profiles.create!(:profile_id => key, :title => profile.title)
+        }
+        bench.destroy
+        sds.destroy
+        true
+      end
   end
 end
