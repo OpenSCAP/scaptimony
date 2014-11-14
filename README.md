@@ -26,6 +26,7 @@ as a stand-alone sealed server.
       + One time waivers of a report
       + Set-up periodic waivers for a given policy and system
       + Set a waiver expirations time (to give the time to remediate things)
+      + Calculate score before and after waiver (ammount of risk accepted needs to be made available to the authorizing official)
   + Let us know, if your feature is missing.
 
 ## Installation
