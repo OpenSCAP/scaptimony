@@ -23,6 +23,9 @@ as a stand-alone sealed server.
     + Search for not audited systems
     * Comparison of audit results
     + Waive known issues
+      + One time waivers of a report
+      + Set-up periodic waivers for a given policy and system
+      + Set a waiver expirations time (to give the time to remediate things)
   + Let us know, if your feature is missing.
 
 ## Installation
