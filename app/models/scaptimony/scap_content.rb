@@ -75,6 +75,10 @@ module Scaptimony
       self[:digest] ||= Digest::SHA256.hexdigest "#{@scap_file}"
     end
 
+    def path
+      "#{dir}/#{digest}"
+    end
+
     private
     def source_init
       OpenSCAP.oscap_init
@@ -83,10 +87,6 @@ module Scaptimony
       else
         OpenSCAP::Source.new path
       end
-    end
-
-    def path
-      "#{dir}/#{digest}"
     end
 
     def dir
