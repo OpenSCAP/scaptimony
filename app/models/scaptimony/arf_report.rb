@@ -8,6 +8,10 @@ module Scaptimony
     belongs_to :asset
     belongs_to :policy
 
+    before_destroy { |record|
+      record.delete
+    }
+
     def store!(data)
       begin
         FileUtils.mkdir_p dir
@@ -24,6 +28,14 @@ module Scaptimony
       yield arf.html
       arf.destroy
       OpenSCAP.oscap_cleanup
+    end
+
+    def delete
+      File.delete path
+      begin
+        Dir.delete dir
+      rescue StandardError => e
+      end
     end
 
     private
