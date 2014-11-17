@@ -5,6 +5,7 @@ module Scaptimony
   class Policy < ActiveRecord::Base
     belongs_to :scap_content
     belongs_to :scap_content_profile
+    has_many :arf_reports, dependent: :destroy
   end
 
   class GuideGenerator
