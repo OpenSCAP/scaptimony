@@ -78,7 +78,11 @@ module Scaptimony
     private
     def source_init
       OpenSCAP.oscap_init
-      OpenSCAP::Source.new(:content => @scap_file, :path => path)
+      if new_record?
+        OpenSCAP::Source.new(:content => @scap_file, :path => path)
+      else
+        OpenSCAP::Source.new path
+      end
     end
 
     def path
