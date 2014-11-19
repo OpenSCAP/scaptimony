@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  arf_report_id:
+  xccdf_result_id:
+  xccdf_rule_id:
+
+two:
+  arf_report_id:
+  xccdf_result_id:
+  xccdf_rule_id:

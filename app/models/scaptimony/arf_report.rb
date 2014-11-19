@@ -7,6 +7,7 @@ module Scaptimony
   class ArfReport < ActiveRecord::Base
     belongs_to :asset
     belongs_to :policy
+    has_many :xccdf_rule_results, :dependent => :destroy
 
     before_destroy { |record|
       record.delete
