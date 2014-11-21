@@ -10,10 +10,19 @@ module Scaptimony
     belongs_to :asset
     belongs_to :policy
     has_many :xccdf_rule_results, :dependent => :destroy
+    has_one :arf_report_breakdown
 
     before_destroy { |record|
       record.delete
     }
+
+    scoped_search :in => :arf_report_breakdown, :on => :passed
+    scoped_search :in => :arf_report_breakdown, :on => :failed
+    scoped_search :in => :arf_report_breakdown, :on => :othered
+
+    def passed; arf_report_breakdown ? arf_report_breakdown.passed : 0; end
+    def failed; arf_report_breakdown ? arf_report_breakdown.failed : 0; end
+    def othered; arf_report_breakdown ? arf_report_breakdown.othered : 0; end
 
     def store!(data)
       begin
