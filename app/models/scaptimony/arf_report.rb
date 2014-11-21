@@ -44,6 +44,7 @@ module Scaptimony
 
     private
     def save_dependent_entities
+      return unless xccdf_rule_results.empty?
       begin
         OpenSCAP.oscap_init
         arf = OpenSCAP::DS::Arf.new path
