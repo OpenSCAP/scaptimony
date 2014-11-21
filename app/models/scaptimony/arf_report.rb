@@ -50,10 +50,10 @@ module Scaptimony
         test_result = arf.test_result
         test_result.rr.each {|rr_id, rr|
           rule = ::Scaptimony::XccdfRule.where(:xid => rr_id).first_or_create!
-          self.xccdf_rule_results.create!(:xccdf_rule_id => rule.id, :xccdf_result_id => XccdfResult.f(rr.result).id)
+          xccdf_rule_results.create!(:xccdf_rule_id => rule.id, :xccdf_result_id => XccdfResult.f(rr.result).id)
         }
       rescue StandardError => e
-        self.xccdf_rule_results.destroy_all
+        xccdf_rule_results.destroy_all
         raise e
       ensure
         test_result.destroy unless test_result.nil?
