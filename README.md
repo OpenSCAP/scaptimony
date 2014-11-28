@@ -17,6 +17,7 @@ as a stand-alone sealed server.
     + Organization defined targeting (Assign a set of nodes with the policy)
     + Define known-issues and waivers (Assign waivers with a set of nodes and the policy)
     + Set-up rules for automated deletion of results
+  + vulnerability assessment (processing OVAL CVE streams)
   + Result post-processing
     + Search SCAP results
     + Search for non-compliant systems
