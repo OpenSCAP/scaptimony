@@ -7,7 +7,7 @@ module Scaptimony
     belongs_to :scap_content_profile
     has_many :arf_reports, dependent: :destroy
 
-    validates :title, :presence => true
+    validates :name, :presence => true
   end
 
   class GuideGenerator
