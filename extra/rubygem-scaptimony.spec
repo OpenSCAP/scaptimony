@@ -10,7 +10,7 @@
 
 %global gem_name scaptimony
 
-%global mainver 0.1.0
+%global mainver 0.2.0
 %global release 1
 %{?prever:
 %global gem_instdir %{gem_dir}/gems/%{gem_name}-%{mainver}%{?prever}
@@ -32,13 +32,13 @@ Source0: %{gem_name}-%{version}.gem
 Requires: %{?scl_prefix}ruby(release)
 Requires: %{?scl_prefix}ruby(rubygems)
 Requires: %{?scl_prefix}rubygem(deface)
-Requires: %{?scl_prefix}rubygem(openscap) >= 0.3.0
+Requires: %{?scl_prefix}rubygem(openscap) >= 0.4.0
 BuildRequires: %{?scl_prefix}ruby(release)
 %else
 Requires: %{?scl_prefix}ruby(abi) >= %{rubyabi}
 Requires: %{?scl_prefix}rubygems
 Requires: %{?scl_prefix}rubygem-deface
-Requires: %{?scl_prefix}rubygem-openscap >= 0.3.0
+Requires: %{?scl_prefix}rubygem-openscap >= 0.4.0
 BuildRequires: %{?scl_prefix}ruby(abi) >= %{rubyabi}
 %endif
 BuildRequires: %{?scl_prefix}rubygems-devel
@@ -105,6 +105,9 @@ popd
 
 
 %changelog
+* Thu Dec 04 2014 Šimon Lukašík <slukasik@redhat.com> - 0.2.0-1
+- new upstream release
+
 * Thu Oct 23 2014 Šimon Lukašík <slukasik@redhat.com> - 0.1.0-1
 - rebuilt
 
