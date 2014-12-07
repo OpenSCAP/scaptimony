@@ -32,7 +32,17 @@ as a stand-alone sealed server.
       + Calculate score before and after waiver (ammount of risk accepted needs to be made available to the authorizing official)
   + Let us know, if your feature is missing.
 
-## Installation
+## Installation from RPMs
+
+- Enable [isimluk/OpenSCAP](https://copr.fedoraproject.org/coprs/isimluk/OpenSCAP/) COPR repository
+
+- Install SCAPtimony
+
+  ```
+  yum install rubygem-scaptimony ruby193-rubygem-scaptimony
+  ```
+
+## Installation from upstream git
 
 - Get SCAPtimony sources
 
