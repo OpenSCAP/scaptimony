@@ -16,7 +16,7 @@ module Scaptimony
       record.delete
     }
 
-    scoped_search :on => :date, :complete_value => true
+    scoped_search :on => :date, :complete_value => true, :default_order => :desc
     scoped_search :in => :arf_report_breakdown, :on => :passed
     scoped_search :in => :arf_report_breakdown, :on => :failed
     scoped_search :in => :arf_report_breakdown, :on => :othered
