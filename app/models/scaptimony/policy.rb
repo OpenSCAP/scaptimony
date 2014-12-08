@@ -9,6 +9,10 @@ module Scaptimony
     has_and_belongs_to_many :assets, :join_table => :scaptimony_assets_policies
 
     validates :name, :presence => true
+
+    def assign_assets(a)
+      self.asset_ids = (self.asset_ids + a.collect(&:id)).uniq
+    end
   end
 
   class GuideGenerator
