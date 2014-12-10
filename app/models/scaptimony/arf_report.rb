@@ -16,6 +16,8 @@ module Scaptimony
       record.delete
     }
 
+    scope :last, lambda { order('date DESC').first }
+
     scoped_search :on => :date, :complete_value => true, :default_order => :desc
     scoped_search :in => :arf_report_breakdown, :on => :passed
     scoped_search :in => :arf_report_breakdown, :on => :failed
