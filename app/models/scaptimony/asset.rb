@@ -5,7 +5,7 @@ module Scaptimony
 
     scope :policy_reports, lambda { |*args| includes(:arf_reports).where(:scaptimony_arf_reports => {:policy_id => args.first.id}) }
     scope :comply_with, lambda { |*args|
-      joins("-- this is emo, we need some histers to rewrite this using arel
+      joins("-- this is emo, we need some hipsters to rewrite this using arel
              INNER JOIN (select asset_id, max(id) AS id
              FROM scaptimony_arf_reports
              WHERE policy_id = #{args.first.id}
