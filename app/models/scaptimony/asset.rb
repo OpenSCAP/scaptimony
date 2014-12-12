@@ -4,6 +4,7 @@ module Scaptimony
     has_many :arf_reports, :dependent => :destroy
 
     scope :policy_reports, lambda { |policy| includes(:arf_reports).where(:scaptimony_arf_reports => {:policy_id => policy.id}) }
+    scope :policy_reports_missing, lambda { |policy| where("id NOT IN (select asset_id from scaptimony_arf_reports where policy_id = #{policy.id})") }
     scope :comply_with, lambda { |policy| last_arf(policy).breakdown.
       last_arf(policy).breakdown.where(:scaptimony_arf_report_breakdowns => {:failed => 0, :othered => 0})
     }
