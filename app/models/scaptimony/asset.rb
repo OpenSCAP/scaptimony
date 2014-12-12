@@ -15,5 +15,15 @@ module Scaptimony
              ON scaptimony_arf_reports.id = scaptimony_arf_report_breakdowns.arf_report_id').
       where(:scaptimony_arf_report_breakdowns => {:failed => 0, :othered => 0})
     }
+    scope :incomply_with, lambda { |*args|
+      joins("INNER JOIN (select asset_id, max(id) AS id
+             FROM scaptimony_arf_reports
+             WHERE policy_id = #{args.first.id}
+             GROUP BY asset_id) scaptimony_arf_reports
+             ON scaptimony_arf_reports.asset_id = scaptimony_assets.id").
+      joins('INNER JOIN scaptimony_arf_report_breakdowns
+             ON scaptimony_arf_reports.id = scaptimony_arf_report_breakdowns.arf_report_id').
+      where('scaptimony_arf_report_breakdowns.failed != 0') #TODO:RAILS-4.0: rewrite with: where.not()
+    }
   end
 end
