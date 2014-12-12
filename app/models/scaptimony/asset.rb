@@ -10,6 +10,11 @@ module Scaptimony
     scope :incomply_with, lambda { |policy|
       last_arf(policy).breakdown.where('scaptimony_arf_report_breakdowns.failed != 0') #TODO:RAILS-4.0: rewrite with: where.not()
     }
+    scope :inconclusive_with, lambda { |policy|
+      last_arf(policy).breakdown.
+      where(:scaptimony_arf_report_breakdowns => {:failed => 0, :othered => 0}).
+      where('scaptimony_arf_report_breakdowns.failed != 0') #TODO:RAILS-4.0: rewrite with: where.not()
+    }
     scope :breakdown, joins('INNER JOIN scaptimony_arf_report_breakdowns ON scaptimony_arf_reports.id = scaptimony_arf_report_breakdowns.arf_report_id')
     scope :last_arf, lambda { |policy|
       joins("-- this is emo, we need some hipsters to rewrite this using arel
