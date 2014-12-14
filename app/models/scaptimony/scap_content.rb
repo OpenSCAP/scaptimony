@@ -1,4 +1,3 @@
-require 'digest/sha2'
 require 'openscap/ds/sds'
 require 'openscap/source'
 require 'openscap/xccdf/benchmark'
@@ -38,7 +37,6 @@ module Scaptimony
 
     validates_with Scaptimony::DataStreamValidator
     validates :title, :presence => true
-    validates :digest, :presence => true
     validates :scap_file, :presence => true, :uniqueness => true
 
     after_create :create_profiles
@@ -49,10 +47,6 @@ module Scaptimony
 
     def source
       @source ||= source_init
-    end
-
-    def digest
-      self[:digest] ||= Digest::SHA256.hexdigest "#{scap_file}"
     end
 
     private
