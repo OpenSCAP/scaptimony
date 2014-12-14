@@ -67,7 +67,6 @@ module Scaptimony
       }
       bench.destroy
       sds.destroy
-      true
     end
   end
 end
