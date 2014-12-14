@@ -41,6 +41,9 @@ module Scaptimony
 
     after_create :create_profiles
 
+    scoped_search :on => :title,             :complete_value => true
+    scoped_search :on => :original_filename, :complete_value => true, :rename => :filename
+
     def to_label
       title
     end
