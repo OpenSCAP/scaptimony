@@ -8,11 +8,6 @@ module Scaptimony
     def validate(scap_content)
       return unless scap_content.scap_file_changed?
 
-      unless (scap_content.scap_content_profiles.map(&:profile_id) - scap_content.benchmark_profiles.profiles.keys).empty?
-        scap_content.errors[:base] << _("Changed file does not include existing Scap Content profiles.")
-        return false
-      end
-
       allowed_type = 'SCAP Source Datastream'
       if scap_content.source.try(:type) != allowed_type
         scap_content.errors[:base] << _("Uploaded file is not #{allowed_type}.")
@@ -23,6 +18,11 @@ module Scaptimony
         scap_content.source.validate!
       rescue OpenSCAP::OpenSCAPError => e
         scap_content.errors[:base] << e.message
+      end
+
+      unless (scap_content.scap_content_profiles.map(&:profile_id) - scap_content.benchmark_profiles.profiles.keys).empty?
+        scap_content.errors[:base] << _("Changed file does not include existing Scap Content profiles.")
+        return false
       end
     end
   end
