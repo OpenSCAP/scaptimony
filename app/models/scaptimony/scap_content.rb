@@ -6,11 +6,11 @@ require 'scaptimony/engine'
 module Scaptimony
   class DataStreamValidator < ActiveModel::Validator
     def validate(scap_content)
-      unless scap_content.new_record?
-        unless (scap_content.scap_content_profiles.map(&:profile_id) - scap_content.benchmark_profiles.profiles.keys).empty?
-          scap_content.errors[:base] << _("Changed file does not include existing Scap Content profiles.")
-          return false
-        end
+      return unless scap_content.scap_file_changed?
+
+      unless (scap_content.scap_content_profiles.map(&:profile_id) - scap_content.benchmark_profiles.profiles.keys).empty?
+        scap_content.errors[:base] << _("Changed file does not include existing Scap Content profiles.")
+        return false
       end
 
       if scap_content.scap_file.nil?
