@@ -13,11 +13,6 @@ module Scaptimony
         return false
       end
 
-      if scap_content.scap_file.nil?
-        scap_content.errors[:base] << _("Please select file for upload.")
-        return false
-      end
-
       allowed_type = 'SCAP Source Datastream'
       if scap_content.source.try(:type) != allowed_type
         scap_content.errors[:base] << _("Uploaded file is not #{allowed_type}.")
