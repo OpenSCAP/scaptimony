@@ -7,9 +7,10 @@ module Scaptimony
   class DataStreamValidator < ActiveModel::Validator
     def validate(scap_content)
       unless scap_content.new_record?
-        return true if scap_content.scap_file_changed?
-        scap_content.errors[:base] << _("Cannot change uploaded file while editing content.")
-        return false
+        unless (scap_content.scap_content_profiles.map(&:profile_id) - scap_content.benchmark_profiles.profiles.keys).empty?
+          scap_content.errors[:base] << _("Changed file does not include existing Scap Content profiles.")
+          return false
+        end
       end
 
       if scap_content.scap_file.nil?
@@ -39,7 +40,7 @@ module Scaptimony
     validates :title, :presence => true
     validates :scap_file, :presence => true, :uniqueness => true
 
-    after_create :create_profiles
+    after_save :create_profiles
 
     scoped_search :on => :title,             :complete_value => true
     scoped_search :on => :original_filename, :complete_value => true, :rename => :filename
@@ -52,6 +53,15 @@ module Scaptimony
       @source ||= source_init
     end
 
+    # returns OpenSCAP::Xccdf::Benchmark with profiles.
+    def benchmark_profiles
+      sds          = ::OpenSCAP::DS::Sds.new(source)
+      bench_source = sds.select_checklist!
+      benchmark = ::OpenSCAP::Xccdf::Benchmark.new(bench_source)
+      sds.destroy
+      benchmark
+    end
+
     private
     def source_init
       OpenSCAP.oscap_init
@@ -59,14 +69,13 @@ module Scaptimony
     end
 
     def create_profiles
-      sds          = ::OpenSCAP::DS::Sds.new source
-      bench_source = sds.select_checklist!
-      bench        = ::OpenSCAP::Xccdf::Benchmark.new bench_source
+      bench = benchmark_profiles
       bench.profiles.each { |key, profile|
-        scap_content_profiles.create!(:profile_id => key, :title => profile.title)
+        scap_content_profiles.find_or_create_by_profile_id_and_title(key, profile.title)
       }
       bench.destroy
-      sds.destroy
+
     end
+
   end
 end
