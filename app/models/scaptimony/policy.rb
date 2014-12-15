@@ -3,6 +3,7 @@ require 'openscap/ds/sds'
 
 module Scaptimony
   class Policy < ActiveRecord::Base
+    attr_accessible :description, :name, :period, :scap_content_id, :scap_content_profile_id, :weekday
     belongs_to :scap_content
     belongs_to :scap_content_profile
     has_many :arf_reports, dependent: :destroy

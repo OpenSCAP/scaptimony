@@ -28,6 +28,7 @@ module Scaptimony
   end
 
   class ScapContent < ActiveRecord::Base
+    attr_accessible :original_filename, :scap_file, :title
     has_many :scap_content_profiles, :dependent => :destroy
     has_many :policies
 
