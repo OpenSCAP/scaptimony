@@ -1,7 +1,7 @@
 module Scaptimony
   class Asset < ActiveRecord::Base
-    has_many :assets_policies
-    has_many :policies, :through => :assets_policies
+    has_many :asset_policies
+    has_many :policies, :through => :asset_policies
     has_many :arf_reports, :dependent => :destroy
 
     scope :policy_reports, lambda { |policy| includes(:arf_reports).where(:scaptimony_arf_reports => {:policy_id => policy.id}) }

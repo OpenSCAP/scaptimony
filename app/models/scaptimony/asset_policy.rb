@@ -1,5 +1,5 @@
 module Scaptimony
-  class AssetsPolicy < ActiveRecord::Base
+  class AssetPolicy < ActiveRecord::Base
     belongs_to :policy
     belongs_to :asset
   end
