@@ -38,12 +38,13 @@ module Scaptimony
       end
     end
 
-    def each
+    def to_html
       OpenSCAP.oscap_init
       arf = OpenSCAP::DS::Arf.new path
-      yield arf.html
+      html = arf.html
       arf.destroy
       OpenSCAP.oscap_cleanup
+      html
     end
 
     def delete
