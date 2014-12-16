@@ -7,7 +7,8 @@ module Scaptimony
     belongs_to :scap_content
     belongs_to :scap_content_profile
     has_many :arf_reports, dependent: :destroy
-    has_and_belongs_to_many :assets, :join_table => :scaptimony_assets_policies
+    has_many :assets_policies
+    has_many :assets, :through => :assets_policies
 
     validates :name, :presence => true
 
