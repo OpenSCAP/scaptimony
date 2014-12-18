@@ -22,6 +22,7 @@ module Scaptimony
     scoped_search :in => :arf_report_breakdown, :on => :passed
     scoped_search :in => :arf_report_breakdown, :on => :failed
     scoped_search :in => :arf_report_breakdown, :on => :othered
+    scoped_search :in => :policy, :on => :name, :complete_value => true, :rename => :compliance_policy
 
     def passed; arf_report_breakdown ? arf_report_breakdown.passed : 0; end
     def failed; arf_report_breakdown ? arf_report_breakdown.failed : 0; end
