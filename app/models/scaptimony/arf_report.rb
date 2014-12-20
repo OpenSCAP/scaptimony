@@ -19,6 +19,7 @@ module Scaptimony
     scope :last, lambda { order('date DESC').first }
     scope :breakdown, joins(:arf_report_breakdown)
     scope :comply, breakdown.where(:scaptimony_arf_report_breakdowns => {:failed => 0, :othered => 0})
+    scope :incomply, breakdown.where('scaptimony_arf_report_breakdowns.failed != 0') # TODO:RAILS-4.0: where.not
     scope :latest, joins('INNER JOIN (select asset_id, policy_id, max(id) AS id
                           FROM scaptimony_arf_reports
                           GROUP BY asset_id, policy_id) latest
@@ -33,6 +34,8 @@ module Scaptimony
       :only_explicit => true, :ext_method => :search_by_last_for
     scoped_search :in => :policy, :on => :name, :complete_value => true, :rename => :comply_with,
       :only_explicit => true, :operators => ['= '], :ext_method => :search_by_comply_with
+    scoped_search :in => :policy, :on => :name, :complete_value => true, :rename => :not_comply_with,
+      :only_explicit => true, :operators => ['= '], :ext_method => :search_by_not_comply_with
 
     def self.search_by_comply_with(_key, _operator, policy_name)
       cond = sanitize_sql_for_conditions('scaptimony_policies.name' => policy_name)
@@ -119,6 +122,15 @@ module Scaptimony
     def dir
       # TODO this should be configurable
       "#{Scaptimony::Engine.dir}/arf/#{asset.name}/#{policy.name}/#{date}"
+    end
+
+    def self.search_by_not_comply_with(_key, _operator, policy_name)
+      cond = sanitize_sql_for_conditions('scaptimony_policies.name' => policy_name)
+      { :conditions => Scaptimony::ArfReport.arel_table[:id].in(
+          Scaptimony::ArfReport.select(Scaptimony::ArfReport.arel_table[:id])
+            .latest.incomply.joins(:policy).where(cond).ast
+        ).to_sql
+      }
     end
   end
 end
