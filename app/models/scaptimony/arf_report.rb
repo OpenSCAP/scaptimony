@@ -17,6 +17,12 @@ module Scaptimony
     }
 
     scope :last, lambda { order('date DESC').first }
+    scope :breakdown, joins(:arf_report_breakdown)
+    scope :comply, breakdown.where(:scaptimony_arf_report_breakdowns => {:failed => 0, :othered => 0})
+    scope :latest, joins('INNER JOIN (select asset_id, policy_id, max(id) AS id
+                          FROM scaptimony_arf_reports
+                          GROUP BY asset_id, policy_id) latest
+                          ON scaptimony_arf_reports.id = latest.id')
 
     scoped_search :on => :date, :complete_value => true, :default_order => :desc
     scoped_search :in => :arf_report_breakdown, :on => :passed
@@ -25,6 +31,17 @@ module Scaptimony
     scoped_search :in => :policy, :on => :name, :complete_value => true, :rename => :compliance_policy
     scoped_search :on => :id, :rename => :last_for, :complete_value => {:host => 0, :policy => 1},
       :only_explicit => true, :ext_method => :search_by_last_for
+    scoped_search :in => :policy, :on => :name, :complete_value => true, :rename => :comply_with,
+      :only_explicit => true, :operators => ['= '], :ext_method => :search_by_comply_with
+
+    def self.search_by_comply_with(_key, _operator, policy_name)
+      cond = sanitize_sql_for_conditions('scaptimony_policies.name' => policy_name)
+      { :conditions => Scaptimony::ArfReport.arel_table[:id].in(
+          Scaptimony::ArfReport.select(Scaptimony::ArfReport.arel_table[:id])
+            .latest.comply.joins(:policy).where(cond).ast
+        ).to_sql
+      }
+    end
 
     def self.search_by_last_for(key, operator, by)
       by.gsub!(/[^[:alnum:]]/, '')
