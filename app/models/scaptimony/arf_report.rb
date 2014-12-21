@@ -41,12 +41,7 @@ module Scaptimony
       :only_explicit => true, :operators => ['= '], :ext_method => :search_by_inconclusive_with
 
     def self.search_by_comply_with(_key, _operator, policy_name)
-      cond = sanitize_sql_for_conditions('scaptimony_policies.name' => policy_name)
-      { :conditions => Scaptimony::ArfReport.arel_table[:id].in(
-          Scaptimony::ArfReport.select(Scaptimony::ArfReport.arel_table[:id])
-            .latest.comply.joins(:policy).where(cond).ast
-        ).to_sql
-      }
+      search_by_policy_results policy_name, &:comply
     end
 
     def self.search_by_last_for(key, operator, by)
@@ -128,19 +123,18 @@ module Scaptimony
     end
 
     def self.search_by_not_comply_with(_key, _operator, policy_name)
-      cond = sanitize_sql_for_conditions('scaptimony_policies.name' => policy_name)
-      { :conditions => Scaptimony::ArfReport.arel_table[:id].in(
-          Scaptimony::ArfReport.select(Scaptimony::ArfReport.arel_table[:id])
-            .latest.incomply.joins(:policy).where(cond).ast
-        ).to_sql
-      }
+      search_by_policy_results policy_name, &:incomply
     end
 
     def self.search_by_inconclusive_with(_key, _operator, policy_name)
+      search_by_policy_results policy_name, &:inconclusive
+    end
+
+    def self.search_by_policy_results(policy_name, &selection)
       cond = sanitize_sql_for_conditions('scaptimony_policies.name' => policy_name)
       { :conditions => Scaptimony::ArfReport.arel_table[:id].in(
           Scaptimony::ArfReport.select(Scaptimony::ArfReport.arel_table[:id])
-            .latest.inconclusive.joins(:policy).where(cond).ast
+            .latest.instance_eval(&selection).joins(:policy).where(cond).ast
         ).to_sql
       }
     end
