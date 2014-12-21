@@ -1,4 +1,4 @@
-module Scaptimony
-  class ApplicationController < ActionController::Base
-  end
-end
+# module Scaptimony
+#   class ApplicationController < ActionController::Base
+#   end
+# end
