@@ -28,7 +28,8 @@ module Scaptimony
   end
 
   class ScapContent < ActiveRecord::Base
-    attr_accessible :original_filename, :scap_file, :title
+    include Authorizable
+    include Taxonomix
     has_many :scap_content_profiles, :dependent => :destroy
     has_many :policies
 
@@ -42,6 +43,12 @@ module Scaptimony
 
     scoped_search :on => :title,             :complete_value => true
     scoped_search :on => :original_filename, :complete_value => true, :rename => :filename
+
+    default_scope lambda {
+      with_taxonomy_scope do
+        order("scaptimony_scap_contents.title")
+      end
+    }
 
     def to_label
       title
@@ -60,6 +67,18 @@ module Scaptimony
       benchmark
     end
 
+    def used_location_ids
+      Location.joins(:taxable_taxonomies).where(
+          'taxable_taxonomies.taxable_type' => 'Scaptimony::ScapContent',
+          'taxable_taxonomies.taxable_id' => id).pluck(:id)
+    end
+
+    def used_organization_ids
+      Organization.joins(:taxable_taxonomies).where(
+          'taxable_taxonomies.taxable_type' => 'Scaptimony::ScapContent',
+          'taxable_taxonomies.taxable_id' => id).pluck(:id)
+    end
+
     private
     def source_init
       OpenSCAP.oscap_init
@@ -69,7 +88,9 @@ module Scaptimony
     def create_profiles
       bench = benchmark_profiles
       bench.profiles.each { |key, profile|
-        scap_content_profiles.find_or_create_by_profile_id_and_title(key, profile.title)
+        benchmark_profile = scap_content_profiles.find_or_create_by_profile_id_and_title(key, profile.title)
+        benchmark_profile.locations = locations
+        benchmark_profile.organizations = organizations
       }
       bench.destroy
 
