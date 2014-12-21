@@ -40,26 +40,6 @@ module Scaptimony
     scoped_search :in => :policy, :on => :name, :complete_value => true, :rename => :inconclusive_with,
       :only_explicit => true, :operators => ['= '], :ext_method => :search_by_inconclusive_with
 
-    def self.search_by_comply_with(_key, _operator, policy_name)
-      search_by_policy_results policy_name, &:comply
-    end
-
-    def self.search_by_last_for(key, operator, by)
-      by.gsub!(/[^[:alnum:]]/, '')
-      case by.downcase
-      when 'host'
-        { :conditions => 'scaptimony_arf_reports.id IN (
-              SELECT MAX(id) FROM scaptimony_arf_reports sub
-              WHERE sub.asset_id = scaptimony_arf_reports.asset_id)' }
-      when 'policy'
-        { :conditions => 'scaptimony_arf_reports.id IN (
-              SELECT MAX(id) FROM scaptimony_arf_reports sub
-              WHERE sub.policy_id = scaptimony_arf_reports.policy_id)'}
-      else
-        raise "Cannot search last by #{by}"
-      end
-    end
-
     def passed; arf_report_breakdown ? arf_report_breakdown.passed : 0; end
     def failed; arf_report_breakdown ? arf_report_breakdown.failed : 0; end
     def othered; arf_report_breakdown ? arf_report_breakdown.othered : 0; end
@@ -122,6 +102,10 @@ module Scaptimony
       "#{Scaptimony::Engine.dir}/arf/#{asset.name}/#{policy.name}/#{date}"
     end
 
+    def self.search_by_comply_with(_key, _operator, policy_name)
+      search_by_policy_results policy_name, &:comply
+    end
+
     def self.search_by_not_comply_with(_key, _operator, policy_name)
       search_by_policy_results policy_name, &:incomply
     end
@@ -137,6 +121,22 @@ module Scaptimony
             .latest.instance_eval(&selection).joins(:policy).where(cond).ast
         ).to_sql
       }
+    end
+
+    def self.search_by_last_for(key, operator, by)
+      by.gsub!(/[^[:alnum:]]/, '')
+      case by.downcase
+      when 'host'
+        { :conditions => 'scaptimony_arf_reports.id IN (
+              SELECT MAX(id) FROM scaptimony_arf_reports sub
+              WHERE sub.asset_id = scaptimony_arf_reports.asset_id)' }
+      when 'policy'
+        { :conditions => 'scaptimony_arf_reports.id IN (
+              SELECT MAX(id) FROM scaptimony_arf_reports sub
+              WHERE sub.policy_id = scaptimony_arf_reports.policy_id)'}
+      else
+        raise "Cannot search last by #{by}"
+      end
     end
   end
 end
