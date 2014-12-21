@@ -6,7 +6,7 @@ module Scaptimony
     attr_accessible :description, :name, :period, :scap_content_id, :scap_content_profile_id, :weekday
     belongs_to :scap_content
     belongs_to :scap_content_profile
-    has_many :arf_reports, dependent: :destroy
+    has_many :arf_reports, :dependent => :destroy
     has_many :asset_policies
     has_many :assets, :through => :asset_policies
 
