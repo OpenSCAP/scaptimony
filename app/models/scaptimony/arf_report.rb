@@ -43,14 +43,12 @@ module Scaptimony
     def othered; arf_report_breakdown ? arf_report_breakdown.othered : 0; end
 
     def store!(data)
-      begin
-        FileUtils.mkdir_p dir
-        File.open(path, 'wb') { |f| f.write(data) }
-        save_dependent_entities
-      rescue StandardError => e
-        logger.error "Could not store ARF to '#{path}': #{e.message}"
-        raise e
-      end
+      FileUtils.mkdir_p dir
+      File.open(path, 'wb') { |f| f.write(data) }
+      save_dependent_entities
+    rescue StandardError => e
+      logger.error "Could not store ARF to '#{path}': #{e.message}"
+      raise e
     end
 
     def to_html

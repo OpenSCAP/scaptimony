@@ -151,11 +151,6 @@ Style/MultilineBlockLayout:
 Style/MultilineOperationIndentation:
   Enabled: false
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/RedundantBegin:
-  Enabled: false
-
 # Offense count: 8
 # Cop supports --auto-correct.
 Style/RedundantSelf:
