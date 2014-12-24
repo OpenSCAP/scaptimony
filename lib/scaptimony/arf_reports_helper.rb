@@ -17,7 +17,8 @@ module Scaptimony
       policy = Policy.where(:name => params[:policy]).first_or_create!
       digest = Digest::SHA256.hexdigest arf_bzip
       # TODO:RAILS-4.0: This should become arf_report = ArfReport.find_or_create_by! ...
-      arf_report = ArfReport.where(:asset_id => asset.id, :policy_id => policy.id, :date => params[:date], :digest => digest).first_or_create!
+      arf_report = ArfReport.where(:asset_id => asset.id, :policy_id => policy.id,
+                                   :date => params[:date], :digest => digest).first_or_create!
       arf_report.store!(arf_bzip)
     end
   end
