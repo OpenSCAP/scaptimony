@@ -173,12 +173,6 @@ Style/SignalException:
 Style/SingleLineMethods:
   Enabled: false
 
-# Offense count: 15
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, EnforcedStyleForEmptyBraces, SupportedStyles.
-Style/SpaceInsideHashLiteralBraces:
-  Enabled: false
-
 # Offense count: 2
 # Cop supports --auto-correct.
 Style/SpecialGlobalVars:

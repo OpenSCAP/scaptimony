@@ -18,9 +18,9 @@ module Scaptimony
 
     scope :last, lambda { order('date DESC').first }
     scope :breakdown, joins(:arf_report_breakdown)
-    scope :comply, breakdown.where(:scaptimony_arf_report_breakdowns => {:failed => 0, :othered => 0})
+    scope :comply, breakdown.where(:scaptimony_arf_report_breakdowns => { :failed => 0, :othered => 0 })
     scope :incomply, breakdown.where('scaptimony_arf_report_breakdowns.failed != 0') # TODO:RAILS-4.0: where.not
-    scope :inconclusive, breakdown.where(:scaptimony_arf_report_breakdowns => {:failed => 0, :othered => 0})
+    scope :inconclusive, breakdown.where(:scaptimony_arf_report_breakdowns => { :failed => 0, :othered => 0 })
     scope :latest, joins('INNER JOIN (select asset_id, policy_id, max(id) AS id
                           FROM scaptimony_arf_reports
                           GROUP BY asset_id, policy_id) latest
@@ -31,7 +31,7 @@ module Scaptimony
     scoped_search :in => :arf_report_breakdown, :on => :failed
     scoped_search :in => :arf_report_breakdown, :on => :othered
     scoped_search :in => :policy, :on => :name, :complete_value => true, :rename => :compliance_policy
-    scoped_search :on => :id, :rename => :last_for, :complete_value => {:host => 0, :policy => 1},
+    scoped_search :on => :id, :rename => :last_for, :complete_value => { :host => 0, :policy => 1 },
       :only_explicit => true, :ext_method => :search_by_last_for
     scoped_search :in => :policy, :on => :name, :complete_value => true, :rename => :comply_with,
       :only_explicit => true, :operators => ['= '], :ext_method => :search_by_comply_with
@@ -133,7 +133,7 @@ module Scaptimony
       when 'policy'
         { :conditions => 'scaptimony_arf_reports.id IN (
               SELECT MAX(id) FROM scaptimony_arf_reports sub
-              WHERE sub.policy_id = scaptimony_arf_reports.policy_id)'}
+              WHERE sub.policy_id = scaptimony_arf_reports.policy_id)' }
       else
         raise "Cannot search last by #{by}"
       end
