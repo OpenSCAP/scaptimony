@@ -8,7 +8,7 @@ module Scaptimony
     scope :policy_reports_missing, lambda { |policy|
       where("id NOT IN (select asset_id from scaptimony_arf_reports where policy_id = #{policy.id})")
     }
-    scope :comply_with, lambda { |policy| last_arf(policy).breakdown.
+    scope :comply_with, lambda { |policy|
       last_arf(policy).breakdown.where(:scaptimony_arf_report_breakdowns => { :failed => 0, :othered => 0 })
     }
     scope :incomply_with, lambda { |policy|

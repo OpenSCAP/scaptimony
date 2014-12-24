@@ -140,11 +140,6 @@ Style/LeadingCommentSpace:
 Style/MethodDefParentheses:
   Enabled: false
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/MultilineBlockLayout:
-  Enabled: false
-
 # Offense count: 8
 # Cop supports --auto-correct.
 Style/RedundantSelf:
