@@ -133,7 +133,7 @@ module Scaptimony
               SELECT MAX(id) FROM scaptimony_arf_reports sub
               WHERE sub.policy_id = scaptimony_arf_reports.policy_id)' }
       else
-        raise "Cannot search last by #{by}"
+        fail "Cannot search last by #{by}"
       end
     end
   end
