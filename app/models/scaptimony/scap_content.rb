@@ -21,7 +21,7 @@ module Scaptimony
       end
 
       unless (scap_content.scap_content_profiles.map(&:profile_id) - scap_content.benchmark_profiles.profiles.keys).empty?
-        scap_content.errors[:base] << _("Changed file does not include existing Scap Content profiles.")
+        scap_content.errors[:base] << _('Changed file does not include existing SCAP Content profiles.')
         return false
       end
     end

@@ -1,4 +1,4 @@
-require "scaptimony/engine"
+require 'scaptimony/engine'
 
 module Scaptimony
 end
