@@ -195,8 +195,3 @@ Style/StringLiterals:
 # Configuration parameters: IgnoredMethods.
 Style/SymbolProc:
   Enabled: false
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/Tab:
-  Enabled: false
