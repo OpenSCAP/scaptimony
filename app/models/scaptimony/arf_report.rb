@@ -44,8 +44,9 @@ module Scaptimony
 
     def store!(data)
       FileUtils.mkdir_p dir
-      File.open(path, 'wb') { |f| f.write(data) }
+      bytes = File.open(path, 'wb') { |f| f.write(data) }
       save_dependent_entities
+      bytes
     rescue StandardError => e
       logger.error "Could not store ARF to '#{path}': #{e.message}"
       raise e
