@@ -57,7 +57,7 @@ as a stand-alone sealed server.
   ```
   $ cd scaptimony
   $ gem build scaptimony.gemspec
-  # yum install yum-utils rpm-build scl-utils scl-utils-build ruby193-rubygems-devel
+  # yum install yum-utils rpm-build scl-utils scl-utils-build ruby193-rubygems-devel ruby193-build ruby193
   # yum-builddep extra/rubygem-scaptimony.spec
   $ rpmbuild  --define "_sourcedir `pwd`" --define "scl ruby193" -ba extra/rubygem-scaptimony.spec
   ```
