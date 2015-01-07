@@ -12,6 +12,8 @@ module Scaptimony
 
     validates :name, :presence => true
 
+    scoped_search :on => :name, :complete_value => true
+
     def assign_assets(a)
       self.asset_ids = (self.asset_ids + a.collect(&:id)).uniq
     end
