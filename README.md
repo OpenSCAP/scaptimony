@@ -65,7 +65,7 @@ as a stand-alone sealed server.
 - Install SCAPtimony RPM
 
   ```
-  # yum local install ~/rpmbuild/RPMS/noarch/ruby193-rubygem-scaptimony-*.noarch.rpm
+  # yum localinstall ~/rpmbuild/RPMS/noarch/ruby193-rubygem-scaptimony-*.noarch.rpm
   ```
 
 ## Usage
