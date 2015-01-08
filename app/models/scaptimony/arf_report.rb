@@ -12,7 +12,7 @@ module Scaptimony
     has_many :xccdf_rule_results, :dependent => :destroy
     has_one :arf_report_breakdown
 
-    before_destroy(&:delete)
+    before_destroy :delete
 
     scope :last, lambda { order('date DESC').first }
     scope :breakdown, joins(:arf_report_breakdown)
