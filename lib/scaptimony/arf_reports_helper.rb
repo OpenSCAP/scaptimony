@@ -12,7 +12,7 @@ require 'digest'
 
 module Scaptimony
   module ArfReportsHelper
-    def self.create_arf(asset, params, arf_bzip)
+    def self.create_arf(asset, params, arf_bzip, arf_bzip_size)
       # fail if policy does not exist.
       policy = Policy.find_by_name!(params[:policy])
       digest = Digest::SHA256.hexdigest arf_bzip
@@ -20,6 +20,8 @@ module Scaptimony
       arf_report = ArfReport.where(:asset_id => asset.id, :policy_id => policy.id,
                                    :date => params[:date], :digest => digest).first_or_create!
       arf_report.store!(arf_bzip)
+      return unless arf_report.arf_report_raw.nil?
+      ArfReportRaw.where(:arf_report_id => arf_report.id, :size => arf_bzip_size, :raw => arf_bzip).create!
     end
   end
 end
