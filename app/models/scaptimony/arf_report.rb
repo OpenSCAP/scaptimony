@@ -11,6 +11,7 @@ module Scaptimony
     belongs_to :policy
     delegate :assetable, :to => :asset, :as => :assetable
     has_many :xccdf_rule_results, :dependent => :destroy
+    has_one :arf_report_raw, :dependent => :destroy
     has_one :arf_report_breakdown
 
     before_destroy :delete
