@@ -19,7 +19,6 @@ module Scaptimony
       # TODO:RAILS-4.0: This should become arf_report = ArfReport.find_or_create_by! ...
       arf_report = ArfReport.where(:asset_id => asset.id, :policy_id => policy.id,
                                    :date => params[:date], :digest => digest).first_or_create!
-      arf_report.store!(arf_bzip)
       return unless arf_report.arf_report_raw.nil?
       ArfReportRaw.where(:arf_report_id => arf_report.id, :size => arf_bzip_size, :raw => arf_bzip).create!
     end
