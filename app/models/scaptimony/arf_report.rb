@@ -9,12 +9,12 @@ module Scaptimony
   class ArfReport < ActiveRecord::Base
     belongs_to :asset
     belongs_to :policy
+    delegate :assetable, :to => :asset, :as => :assetable
     has_many :xccdf_rule_results, :dependent => :destroy
     has_one :arf_report_breakdown
 
     before_destroy :delete
 
-    scope :last, lambda { order('date DESC').first }
     scope :breakdown, joins(:arf_report_breakdown)
     scope :comply, breakdown.where(:scaptimony_arf_report_breakdowns => { :failed => 0, :othered => 0 })
     scope :incomply, breakdown.where('scaptimony_arf_report_breakdowns.failed != 0') # TODO:RAILS-4.0: where.not

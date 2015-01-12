@@ -13,8 +13,8 @@ require 'digest'
 module Scaptimony
   module ArfReportsHelper
     def self.create_arf(asset, params, arf_bzip)
-      # TODO:RAILS-4.0: This should become policy = Policy.find_or_create_by!(name: params[:policy])
-      policy = Policy.where(:name => params[:policy]).first_or_create!
+      # fail if policy does not exist.
+      policy = Policy.find_by_name!(params[:policy])
       digest = Digest::SHA256.hexdigest arf_bzip
       # TODO:RAILS-4.0: This should become arf_report = ArfReport.find_or_create_by! ...
       arf_report = ArfReport.where(:asset_id => asset.id, :policy_id => policy.id,
