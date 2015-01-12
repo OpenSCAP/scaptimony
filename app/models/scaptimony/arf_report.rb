@@ -1,10 +1,3 @@
-require 'fileutils'
-require 'openscap'
-require 'openscap/ds/arf'
-require 'openscap/xccdf/testresult'
-require 'openscap/xccdf/ruleresult'
-require 'scaptimony/engine'
-
 module Scaptimony
   class ArfReport < ActiveRecord::Base
     belongs_to :asset
@@ -13,8 +6,6 @@ module Scaptimony
     has_many :xccdf_rule_results, :dependent => :destroy
     has_one :arf_report_raw, :dependent => :destroy
     has_one :arf_report_breakdown
-
-    before_destroy :delete
 
     scope :breakdown, joins(:arf_report_breakdown)
     scope :comply, breakdown.where(:scaptimony_arf_report_breakdowns => { :failed => 0, :othered => 0 })
@@ -43,61 +34,11 @@ module Scaptimony
     def failed; arf_report_breakdown ? arf_report_breakdown.failed : 0; end
     def othered; arf_report_breakdown ? arf_report_breakdown.othered : 0; end
 
-    def store!(data)
-      FileUtils.mkdir_p dir
-      bytes = File.open(path, 'wb') { |f| f.write(data) }
-      save_dependent_entities
-      bytes
-    rescue StandardError => e
-      logger.error "Could not store ARF to '#{path}': #{e.message}"
-      raise e
-    end
-
     def to_html
-      OpenSCAP.oscap_init
-      arf = OpenSCAP::DS::Arf.new path
-      html = arf.html
-      arf.destroy
-      OpenSCAP.oscap_cleanup
-      html
-    end
-
-    def delete
-      File.delete path
-      begin
-        Dir.delete dir
-      rescue StandardError => e
+      if arf_report_raw.nil?
+        fail Error, "Cannot generate HTML report, ArfReport #{id} is missing XML details"
       end
-    end
-
-    private
-    def save_dependent_entities
-      return unless xccdf_rule_results.empty?
-      begin
-        OpenSCAP.oscap_init
-        arf = OpenSCAP::DS::Arf.new path
-        test_result = arf.test_result
-        test_result.rr.each {|rr_id, rr|
-          rule = ::Scaptimony::XccdfRule.where(:xid => rr_id).first_or_create!
-          xccdf_rule_results.create!(:xccdf_rule_id => rule.id, :xccdf_result_id => XccdfResult.f(rr.result).id)
-        }
-      rescue StandardError => e
-        xccdf_rule_results.destroy_all
-        raise e
-      ensure
-        test_result.destroy unless test_result.nil?
-        arf.destroy unless arf.nil?
-        OpenSCAP.oscap_cleanup
-      end
-    end
-
-    def path
-      "#{dir}/#{digest}.xml.bz2"
-    end
-
-    def dir
-      # TODO this should be configurable
-      "#{Scaptimony::Engine.dir}/arf/#{asset.name}/#{policy.name}/#{date}"
+      arf_report_raw.to_html
     end
 
     def self.search_by_comply_with(_key, _operator, policy_name)
