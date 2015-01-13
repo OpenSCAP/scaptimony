@@ -1,7 +1,7 @@
 module Scaptimony
   class Asset < ActiveRecord::Base
-    has_many :asset_policies
-    has_many :policies, :through => :asset_policies
+    belongs_to :policy
+    belongs_to :assetable, :polymorphic => true
     has_many :arf_reports, :dependent => :destroy
 
     scope :policy_reports, lambda { |policy| includes(:arf_reports).where(:scaptimony_arf_reports => { :policy_id => policy.id }) }
@@ -21,6 +21,7 @@ module Scaptimony
     }
     scope :breakdown, joins('INNER JOIN scaptimony_arf_report_breakdowns
       ON scaptimony_arf_reports.id = scaptimony_arf_report_breakdowns.arf_report_id')
+
     scope :last_arf, lambda { |policy|
       joins("-- this is emo, we need some hipsters to rewrite this using arel
              INNER JOIN (select asset_id, max(id) AS id
