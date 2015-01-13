@@ -25,10 +25,7 @@ module Scaptimony
       begin
         arf = build_arf
         test_result = arf.test_result
-        test_result.rr.each {|rr_id, rr|
-          rule = ::Scaptimony::XccdfRule.where(:xid => rr_id).first_or_create!
-          arf_report.xccdf_rule_results.create!(:xccdf_rule_id => rule.id, :xccdf_result_id => XccdfResult.f(rr.result).id)
-        }
+        create_rule_results(test_result)
       rescue StandardError => e
         arf_report.xccdf_rule_results.destroy_all
         raise e
@@ -37,6 +34,13 @@ module Scaptimony
         arf.destroy unless arf.nil?
         OpenSCAP.oscap_cleanup
       end
+    end
+
+    def create_rule_results(test_result)
+      test_result.rr.each {|rr_id, rr|
+        rule = ::Scaptimony::XccdfRule.where(:xid => rr_id).first_or_create!
+        arf_report.xccdf_rule_results.create!(:xccdf_rule_id => rule.id, :xccdf_result_id => XccdfResult.f(rr.result).id)
+      }
     end
 
     def build_arf
