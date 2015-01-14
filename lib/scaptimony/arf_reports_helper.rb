@@ -20,7 +20,7 @@ module Scaptimony
       arf_report = ArfReport.where(:asset_id => asset.id, :policy_id => policy.id,
                                    :date => params[:date], :digest => digest).first_or_create!
       return unless arf_report.arf_report_raw.nil?
-      ArfReportRaw.where(:arf_report_id => arf_report.id, :size => arf_bzip_size, :raw => arf_bzip).create!
+      ArfReportRaw.where(:arf_report_id => arf_report.id, :size => arf_bzip_size, :bzip_data => arf_bzip).create!
     end
   end
 end
