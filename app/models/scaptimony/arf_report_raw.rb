@@ -41,7 +41,7 @@ module Scaptimony
 
     def build_arf
       OpenSCAP.oscap_init
-      OpenSCAP::DS::Arf.new :content => raw, :path => 'arf.xml.bz2', :length => size
+      OpenSCAP::DS::Arf.new :content => bzip_data, :path => 'arf.xml.bz2', :length => size
     end
   end
 end
