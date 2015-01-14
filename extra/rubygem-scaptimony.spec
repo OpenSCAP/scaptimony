@@ -32,13 +32,13 @@ Source0: %{gem_name}-%{version}.gem
 Requires: %{?scl_prefix}ruby(release)
 Requires: %{?scl_prefix}ruby(rubygems)
 Requires: %{?scl_prefix}rubygem(deface)
-Requires: %{?scl_prefix}rubygem(openscap) >= 0.4.0
+Requires: %{?scl_prefix}rubygem(openscap) >= 0.4.1
 BuildRequires: %{?scl_prefix}ruby(release)
 %else
 Requires: %{?scl_prefix}ruby(abi) >= %{rubyabi}
 Requires: %{?scl_prefix}rubygems
 Requires: %{?scl_prefix}rubygem-deface
-Requires: %{?scl_prefix}rubygem-openscap >= 0.4.0
+Requires: %{?scl_prefix}rubygem-openscap >= 0.4.1
 BuildRequires: %{?scl_prefix}ruby(abi) >= %{rubyabi}
 %endif
 BuildRequires: %{?scl_prefix}rubygems-devel
