@@ -20,6 +20,9 @@ module Scaptimony
       arf_report = ArfReport.where(:asset_id => asset.id, :policy_id => policy.id,
                                    :date => params[:date], :digest => digest).first_or_create!
       arf_report.store!(arf_bzip)
+
+      ## Ensure asset <-> policy exists.
+      AssetPolicy.where(:asset_id => asset.id, :policy_id => policy.id).first_or_create!
     end
   end
 end
