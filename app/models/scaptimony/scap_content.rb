@@ -38,7 +38,7 @@ module Scaptimony
     validates_with Scaptimony::DataStreamValidator
     validates :title, :presence => true
     validates :digest, :presence => true
-    validates :scap_file, :presence => true, :uniqueness => true
+    validates :scap_file, :presence => true
 
     after_save :create_profiles
 

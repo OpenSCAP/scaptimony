@@ -8,7 +8,6 @@ class AddScaptimonyScapContentDigest < ActiveRecord::Migration
       content.save!
     end
     change_column :scaptimony_scap_contents, :digest, :string, :null => false
-    add_index :scaptimony_scap_contents, :digest, unique: true
   end
 
   class ScapContentHack < ActiveRecord::Base
