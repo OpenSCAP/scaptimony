@@ -14,7 +14,7 @@ module Scaptimony
   module ArfReportsHelper
     def self.create_arf(asset, params, arf_bzip, arf_bzip_size)
       # fail if policy does not exist.
-      policy = Policy.find_by_name!(params[:policy])
+      policy = Policy.find(params[:policy_id])
       digest = Digest::SHA256.hexdigest arf_bzip
       # TODO:RAILS-4.0: This should become arf_report = ArfReport.find_or_create_by! ...
       arf_report = ArfReport.where(:asset_id => asset.id, :policy_id => policy.id,
