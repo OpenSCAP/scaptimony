@@ -16,11 +16,14 @@ module Scaptimony
       # fail if policy does not exist.
       policy = Policy.find(params[:policy_id])
       digest = Digest::SHA256.hexdigest arf_bzip
-      # TODO:RAILS-4.0: This should become arf_report = ArfReport.find_or_create_by! ...
-      arf_report = ArfReport.where(:asset_id => asset.id, :policy_id => policy.id,
-                                   :date => params[:date], :digest => digest).first_or_create!
-      return unless arf_report.arf_report_raw.nil?
-      ArfReportRaw.where(:arf_report_id => arf_report.id, :size => arf_bzip_size, :bzip_data => arf_bzip).create!
+      ArfReportRaw.transaction do
+        # TODO:RAILS-4.0: This should become arf_report = ArfReport.find_or_create_by! ...
+        arf_report = ArfReport.where(:asset_id => asset.id, :policy_id => policy.id,
+                                     :date => params[:date], :digest => digest).first_or_create!
+        if arf_report.arf_report_raw.nil?
+          ArfReportRaw.where(:arf_report_id => arf_report.id, :size => arf_bzip_size, :bzip_data => arf_bzip).create!
+        end
+      end
     end
   end
 end
