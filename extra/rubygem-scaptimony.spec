@@ -10,7 +10,7 @@
 
 %global gem_name scaptimony
 
-%global mainver 0.2.0
+%global mainver 0.3.0
 %global release 1
 %{?prever:
 %global gem_instdir %{gem_dir}/gems/%{gem_name}-%{mainver}%{?prever}
@@ -107,6 +107,9 @@ popd
 
 
 %changelog
+* Sat Jan 24 2015 Šimon Lukašík <slukasik@redhat.com> - 0.3.0-1
+- new upstream release
+
 * Thu Dec 04 2014 Šimon Lukašík <slukasik@redhat.com> - 0.2.0-1
 - new upstream release
 
