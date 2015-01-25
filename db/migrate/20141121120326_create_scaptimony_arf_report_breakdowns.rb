@@ -1,6 +1,6 @@
 class CreateScaptimonyArfReportBreakdowns < ActiveRecord::Migration
-   def self.up
-     execute <<-SQL
+  def self.up
+    execute <<-SQL
 CREATE VIEW scaptimony_arf_report_breakdowns AS
   SELECT
     arf.id as arf_report_id,
@@ -15,6 +15,10 @@ CREATE VIEW scaptimony_arf_report_breakdowns AS
     arf.id = rule.arf_report_id
     AND rule.xccdf_result_id = result.id
   GROUP BY arf.id;
-SQL
+    SQL
+  end
+
+  def self.down
+    execute "DROP VIEW scaptimony_arf_report_breakdowns" if table_exists? 'scaptimony_arf_report_breakdowns'
   end
 end
