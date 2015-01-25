@@ -1,7 +1,9 @@
 class ReplaceArfReportBreakdownView < ActiveRecord::Migration
-   def self.up
-     execute <<-SQL
-CREATE OR REPLACE VIEW scaptimony_arf_report_breakdowns AS
+  def self.up
+    CreateScaptimonyArfReportBreakdowns.down
+    execute "DROP VIEW scaptimony_arf_report_breakdowns"
+    execute <<-SQL
+CREATE VIEW scaptimony_arf_report_breakdowns AS
   SELECT
     arf.id as arf_report_id,
     COUNT(CASE WHEN result.name IN ('pass','fixed') THEN 1 ELSE null END) as passed,
@@ -15,6 +17,10 @@ CREATE OR REPLACE VIEW scaptimony_arf_report_breakdowns AS
   LEFT OUTER JOIN scaptimony_xccdf_results result
     ON rule.xccdf_result_id = result.id
   GROUP BY arf.id;
-SQL
+    SQL
+  end
+
+  def self.down
+    execute "DROP VIEW scaptimony_arf_report_breakdowns"
   end
 end
