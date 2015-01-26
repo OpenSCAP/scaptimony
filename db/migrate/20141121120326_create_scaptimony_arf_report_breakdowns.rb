@@ -19,6 +19,6 @@ CREATE VIEW scaptimony_arf_report_breakdowns AS
   end
 
   def self.down
-    execute "DROP VIEW scaptimony_arf_report_breakdowns" if table_exists? 'scaptimony_arf_report_breakdowns'
+    execute 'DROP VIEW scaptimony_arf_report_breakdowns' if table_exists? 'scaptimony_arf_report_breakdowns'
   end
 end
