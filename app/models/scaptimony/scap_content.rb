@@ -41,6 +41,7 @@ module Scaptimony
     validates :scap_file, :presence => true
 
     after_save :create_profiles
+    before_validation :redigest, :if => lambda { |scap_content| scap_content.persisted? && scap_content.scap_file_changed? }
 
     scoped_search :on => :title,             :complete_value => true
     scoped_search :on => :original_filename, :complete_value => true, :rename => :filename
@@ -79,6 +80,10 @@ module Scaptimony
       }
       bench.destroy
 
+    end
+
+    def redigest
+      self[:digest] = Digest::SHA256.hexdigest "#{scap_file}"
     end
 
   end
