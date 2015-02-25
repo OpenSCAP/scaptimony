@@ -56,7 +56,7 @@ module Scaptimony
     def self.search_by_policy_results(policy_name, &selection)
       cond = sanitize_sql_for_conditions('scaptimony_policies.name' => policy_name)
       { :conditions => Scaptimony::ArfReport.arel_table[:id].in(
-          Scaptimony::ArfReport.select(Scaptimony::ArfReport.arel_table[:id])
+        Scaptimony::ArfReport.select(Scaptimony::ArfReport.arel_table[:id])
             .latest.instance_eval(&selection).joins(:policy).where(cond).ast
         ).to_sql
       }
