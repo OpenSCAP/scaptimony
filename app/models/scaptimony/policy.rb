@@ -21,8 +21,8 @@ module Scaptimony
 
     def to_html
       if self.scap_content.blank? || self.scap_content_profile.blank?
-        return warn(_('Cannot generate HTML guide for %{scap_content}/%{profile}') %
-          { :scap_content => self.scap_content, :profile => self.scap_content_profile })
+        return (_('<h2>Cannot generate HTML guide for %{scap_content}/%{profile}</h2>') %
+          { :scap_content => self.scap_content, :profile => self.scap_content_profile }).html_safe
       end
 
       sds = OpenSCAP::DS::Sds.new self.scap_content.source
