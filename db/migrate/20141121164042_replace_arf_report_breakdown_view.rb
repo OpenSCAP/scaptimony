@@ -1,7 +1,8 @@
 class ReplaceArfReportBreakdownView < ActiveRecord::Migration
   def self.up
+    execute 'DROP VIEW scaptimony_arf_report_breakdowns' if table_exists? 'scaptimony_arf_report_breakdowns'
     execute <<-SQL
-CREATE OR REPLACE VIEW scaptimony_arf_report_breakdowns AS
+CREATE VIEW scaptimony_arf_report_breakdowns AS
   SELECT
     arf.id as arf_report_id,
     COUNT(CASE WHEN result.name IN ('pass','fixed') THEN 1 ELSE null END) as passed,
