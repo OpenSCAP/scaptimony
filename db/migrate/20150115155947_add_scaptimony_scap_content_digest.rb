@@ -2,12 +2,14 @@ require 'digest/sha2'
 
 class AddScaptimonyScapContentDigest < ActiveRecord::Migration
   def change
-    add_column :scaptimony_scap_contents, :digest, :string, :limit => 128
-    ScapContentHack.find_each do |content|
-      content.digest
-      content.save!
+    unless column_exists?(:scaptimony_scap_contents, :digest)
+      add_column :scaptimony_scap_contents, :digest, :string, :limit => 128
+      ScapContentHack.find_each do |content|
+        content.digest
+        content.save!
+      end
+      change_column :scaptimony_scap_contents, :digest, :string, :null => false
     end
-    change_column :scaptimony_scap_contents, :digest, :string, :null => false
   end
 
   class ScapContentHack < ActiveRecord::Base
