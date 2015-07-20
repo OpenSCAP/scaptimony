@@ -1,6 +1,6 @@
 class ReplaceArfReportBreakdownView < ActiveRecord::Migration
   def self.up
-    execute 'DROP VIEW scaptimony_arf_report_breakdowns' if table_exists? 'scaptimony_arf_report_breakdowns'
+    execute 'DROP VIEW IF EXISTS scaptimony_arf_report_breakdowns'
     execute <<-SQL
 CREATE VIEW scaptimony_arf_report_breakdowns AS
   SELECT
